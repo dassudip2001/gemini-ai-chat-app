@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MessageT } from "../model/chat";
+import { MessageT } from "../app/model/chat";
 import MarkdownRenderer from "./MarkdownRenderer";
 
 export default function Chat() {
