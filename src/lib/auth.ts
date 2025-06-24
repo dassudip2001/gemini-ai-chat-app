@@ -2,6 +2,8 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { connect } from "./db";
+import User from "@/models/User";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -25,24 +27,24 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
-        //   await connect();
-        //   const user = await User.findOne({ email: credentials.email });
-        //   if (!user) {
-        //     throw new Error("User not found");
-        //   }
-        //   const valid = await bcrypt.compare(
-        //     credentials.password,
-        //     user.password
-        //   );
-        //   if (!valid) {
-        //     throw new Error("Invalid credentials");
-        //   }
+          await connect();
+          const user = await User.findOne({ email: credentials.email });
+          if (!user) {
+            throw new Error("User not found");
+          }
+          const valid = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
+          if (!valid) {
+            throw new Error("Invalid credentials");
+          }
 
-        //   return {
-        //     id: user._id.toString(),
-        //     role: user.role,
-        //     name: user.email,
-        //   };
+          return {
+            id: user._id.toString(),
+            role: user.role,
+            name: user.email,
+          };
         } catch (error) {
           console.error("Auth Error", error);
           throw error;

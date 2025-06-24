@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { PrismaClient } from "@prisma/client";
+import { connect } from "@/lib/db";
+import Chat from "@/models/Chat";
 
 // prisma client
-const prisma = new PrismaClient();
 
 // initialize the model
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY! || "");
@@ -11,11 +11,8 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY! || "");
 // get all the messages
 export async function GET() {
   try {
-    const messages = await prisma.chat.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    await connect();
+    const messages = await Chat.find().sort({ createdAt: -1 });
 
     return NextResponse.json({ messages }, { status: 200 });
   } catch (error) {
@@ -54,11 +51,16 @@ export async function POST(req: NextRequest) {
     const botReply = response.response.text(); // Ensure this matches the SDK's response structure.
 
     // Optionally save to the database
-    await prisma.chat.create({
-      data: {
-        userInput,
-        botReply,
-      },
+    // await prisma.chat.create({
+    //   data: {
+    //     id: new Date().getTime(),
+    //     userInput,
+    //     botReply,
+    //   },
+    // });
+    await Chat.create({
+      userInput,
+      botReply,
     });
 
     return NextResponse.json({ userInput, message: botReply }, { status: 200 });

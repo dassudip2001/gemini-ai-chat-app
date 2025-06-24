@@ -14,7 +14,7 @@ export default function Sidebar() {
     <>
       <button
         onClick={toggleSidebar}
-        className="md:hidden fixed z-20 bottom-4 right-4 p-3 rounded-full bg-gray-400 text-white shadow-lg"
+        className="md:hidden fixed z-20 bottom-4 right-4 p-3 rounded-full bg-[#23202b] text-white shadow-lg"
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
@@ -22,7 +22,7 @@ export default function Sidebar() {
       <aside
         className={`${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 fixed md:relative inset-y-0 left-0 z-20 w-64 bg-gray-400 text-white transform transition-transform duration-300 ease-in-out`}
+        } md:translate-x-0 fixed md:relative inset-y-0 left-0 z-20 w-64 bg-[#23202b] text-white transform transition-transform duration-300 ease-in-out`}
       >
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-center h-16 border-b border-gray-800">

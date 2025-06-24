@@ -44,53 +44,58 @@ export default function Chat() {
   }, []);
 
   return (
-    <div>
-      <div className="chat-container">
-        <header className="chat-header">
-          <h1>AI Chat Assistant</h1>
-        </header>
-        <main className="chat-messages">
-          <div className="message-list">
-            {chatData.map((message) => (
-              <div key={message.id} className="message-item">
-                <div className="message-user text-black">
-                  <strong>User:</strong> {message.userInput}
+    <>
+      <div>
+        <div className="chat-container">
+          <header className="chat-header">
+            <h1>AI Chat Assistant</h1>
+          </header>
+          <main className="chat-messages">
+            <div className="message-list">
+              {chatData.map((message) => (
+                <div key={message.id} className="message-item">
+                  <div className="message-user text-black">
+                    <strong>User:</strong> {message.userInput}
+                  </div>
+                  <div
+                    className="message-bot text-black"
+                    style={{ padding: "1rem" }}
+                  >
+                    <MarkdownRenderer content={message.botReply} />
+                    {/* <strong>Bot:</strong> {message.botReply} */}
+                  </div>
+                  <div className="message-time text-black">
+                    {new Date(message.createdAt).toLocaleString()}
+                  </div>
                 </div>
-                <div
-                  className="message-bot text-black"
-                  style={{ padding: "1rem" }}
-                >
-                  <MarkdownRenderer content={message.botReply} />
-                  {/* <strong>Bot:</strong> {message.botReply} */}
-                </div>
-                <div className="message-time text-black">
-                  {new Date(message.createdAt).toLocaleString()}
-                </div>
-              </div>
-            ))}
-          </div>
-        </main>
-        <footer className="chat-input">
-          <form className="input-form" onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="text"
-              placeholder="Type your message..."
-              name="userInput"
-              className="message-input text-black"
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-            />
-            <button
-              type="button"
-              className="send-button"
-              onClick={submitChat}
-              disabled={loading}
-            >
-              {loading ? "Loading..." : "Send"}
-            </button>
-          </form>
-        </footer>
+              ))}
+            </div>
+          </main>
+          <footer className="chat-input">
+            <form className="input-form" onSubmit={(e) => e.preventDefault()}>
+              <input
+                type="text"
+                placeholder="Type your message..."
+                name="userInput"
+                className="message-input text-black"
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+              />
+              <button
+                type="button"
+                className="send-button"
+                onClick={submitChat}
+                disabled={loading}
+              >
+                {loading ? "Loading..." : "Send"}
+              </button>
+            </form>
+          </footer>
+        </div>
       </div>
-    </div>
+      {/* <div className="sticky bottom-0 bg-white z-10">
+        <ChatInput />
+      </div> */}
+    </>
   );
 }
